@@ -1,17 +1,37 @@
+// import { InputLabel, InputBase, FormControl } from '@mui/material'
+import { Button, styled } from '@mui/material';
+
 import {
   Container,
   LeftContainer,
   LeftFooter,
   LeftFooterText,
   LeftFooterTitle,
-  RightContainer
+  LeftImage,
+  LeftImgContainer,
+  SignInInputContainer,
+  RightContainer,
+  RightImageLogo,
+  InputBase,
+  InputLabel,
+  InputAndLabelContainer,
+  RightCardContainer,
+  SignInButton,
+  SignUpButton
 } from "./style"
 
+import ImageSingIn from '../../assets/SignInImage.png'
+import FullLogo from '../../assets/fulllogo.svg'
+
+
 export const SingIn = () => {
+
   return (
     <Container>
       <LeftContainer>
-        Left
+        <LeftImgContainer >
+          <LeftImage src={ImageSingIn} />
+        </LeftImgContainer>
         <LeftFooter >
           <LeftFooterTitle>
             Junte-se a vários clientes satisfeitos.
@@ -22,7 +42,30 @@ export const SingIn = () => {
           </LeftFooterText>
         </LeftFooter>
       </LeftContainer>
-      <RightContainer>Right</RightContainer>
+
+      <RightContainer>
+        <RightCardContainer>
+          <RightImageLogo src={FullLogo} />
+
+          <SignInInputContainer>
+            <InputAndLabelContainer>
+              <InputLabel htmlFor='email'>Email</InputLabel>
+              <InputBase id="email" />
+            </InputAndLabelContainer>
+
+            <InputAndLabelContainer>
+              <InputLabel htmlFor='email'>Senha</InputLabel>
+              <InputBase id="senha" />
+            </InputAndLabelContainer>
+          </SignInInputContainer>
+
+          <SignInButton>LOGAR</SignInButton>
+
+          <SignUpButton>CRIAR CONTA</SignUpButton>
+
+        </RightCardContainer>
+
+      </RightContainer>
     </Container>
   )
 }
