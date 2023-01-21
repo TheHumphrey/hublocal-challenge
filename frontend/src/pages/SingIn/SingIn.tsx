@@ -1,6 +1,3 @@
-// import { InputLabel, InputBase, FormControl } from '@mui/material'
-import { Button, styled } from '@mui/material';
-
 import {
   Container,
   LeftContainer,
@@ -22,7 +19,6 @@ import {
 
 import ImageSingIn from '../../assets/SignInImage.png'
 import FullLogo from '../../assets/fulllogo.svg'
-
 
 export const SingIn = () => {
 
