@@ -1,15 +1,18 @@
+import { BrowserRouter } from "react-router-dom"
 import { ThemeProvider } from "styled-components"
-import { SingIn } from "./pages/SingIn/SingIn"
-import { GlobalStyle } from "./styles/globa"
+import { Router } from "./routes"
+import { GlobalStyle } from "./styles/global"
 import { defaultTheme } from "./styles/theme/default"
 
 const App = () => {
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <SingIn />
-      <GlobalStyle />
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={defaultTheme}>
+        <Router />
+        <GlobalStyle />
+      </ThemeProvider>
+    </BrowserRouter>
   )
 }
 

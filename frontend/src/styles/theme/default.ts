@@ -3,6 +3,7 @@ export const defaultTheme = {
   black: '#000',
 
   'white-100': '#ECECEC',
+  'white-200': '#EAEAEA',
 
   'gray-600': '#373737',
 

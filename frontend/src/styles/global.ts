@@ -9,5 +9,6 @@ export const GlobalStyle = createGlobalStyle`
   }
   body {
     -webkit-font-smoothing: antialiased;
+    background: linear-gradient(90deg, ${({ theme }) => theme.white} 0%, ${({ theme }) => theme['white-100']} 14.58%);
   }
 `
