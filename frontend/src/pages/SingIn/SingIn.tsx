@@ -1,3 +1,4 @@
+import { useState } from "react"
 import {
   Container,
   LeftContainer,
@@ -9,7 +10,6 @@ import {
   SignInInputContainer,
   RightContainer,
   RightImageLogo,
-  InputBase,
   InputLabel,
   InputAndLabelContainer,
   RightCardContainer,
@@ -19,8 +19,11 @@ import {
 
 import ImageSingIn from '../../assets/SignInImage.png'
 import FullLogo from '../../assets/fulllogo.svg'
+import { InputBase } from "../../components/BaseInput/BaseInput"
 
 export const SingIn = () => {
+
+  const [isSignIn, setIsSignIn] = useState(true)
 
   return (
     <Container>
@@ -42,22 +45,56 @@ export const SingIn = () => {
       <RightContainer>
         <RightCardContainer>
           <RightImageLogo src={FullLogo} />
+          {
+            isSignIn ? (
+              <>
+                <SignInInputContainer>
+                  <InputAndLabelContainer>
+                    <InputLabel htmlFor='email'>Email</InputLabel>
+                    <InputBase id="email" />
+                  </InputAndLabelContainer>
 
-          <SignInInputContainer>
-            <InputAndLabelContainer>
-              <InputLabel htmlFor='email'>Email</InputLabel>
-              <InputBase id="email" />
-            </InputAndLabelContainer>
+                  <InputAndLabelContainer>
+                    <InputLabel htmlFor='password'>Senha</InputLabel>
+                    <InputBase id="password" type="password" />
+                  </InputAndLabelContainer>
+                </SignInInputContainer>
 
-            <InputAndLabelContainer>
-              <InputLabel htmlFor='email'>Senha</InputLabel>
-              <InputBase id="senha" />
-            </InputAndLabelContainer>
-          </SignInInputContainer>
+                <SignInButton>LOGAR</SignInButton>
 
-          <SignInButton>LOGAR</SignInButton>
+                <SignUpButton onClick={() => setIsSignIn(!isSignIn)}>CRIAR CONTA</SignUpButton>
+              </>
+            ) : (
+              <>
+                <SignInInputContainer>
+                  <InputAndLabelContainer>
+                    <InputLabel htmlFor='name'>Nome</InputLabel>
+                    <InputBase id="name" />
+                  </InputAndLabelContainer>
 
-          <SignUpButton>CRIAR CONTA</SignUpButton>
+                  <InputAndLabelContainer>
+                    <InputLabel htmlFor='email'>Email</InputLabel>
+                    <InputBase id="email" />
+                  </InputAndLabelContainer>
+
+                  <InputAndLabelContainer>
+                    <InputLabel htmlFor='password' >Senha</InputLabel>
+                    <InputBase id="password" type="password" />
+                  </InputAndLabelContainer>
+
+                  <InputAndLabelContainer>
+                    <InputLabel htmlFor='password' >Repetir Senha</InputLabel>
+                    <InputBase id="password" type="password" />
+                  </InputAndLabelContainer>
+                </SignInInputContainer>
+
+                <SignInButton>REGISTRAR</SignInButton>
+
+                <SignUpButton onClick={() => setIsSignIn(!isSignIn)}>LOGAR</SignUpButton>
+              </>
+            )
+          }
+
 
         </RightCardContainer>
 

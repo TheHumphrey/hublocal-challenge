@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-
+import { BaseButton } from '../../components/BaseButton/BaseButton'
 
 export const Container = styled.div`
   width: 100vw;
@@ -116,11 +116,8 @@ export const InputAndLabelContainer = styled.div`
 `
 
 export const InputLabel = styled.label`
-  /* position: absolute; */
-  width: 45px;
+  min-width: 45px;
   height: 20px;
-  /* left: 760px;
-  top: 313px; */
 
   font-family: 'Poppins';
   font-style: normal;
@@ -128,47 +125,15 @@ export const InputLabel = styled.label`
   font-size: 1rem;
   line-height: 1.25rem;
 
-  text-align: center;
+  text-align: left;
 
   color: #373737;
 `
 
-export const InputBase = styled.input`
-  box-sizing: border-box;
-
-  width: 25rem;
-  height: 3.75rem;
-
-  border: 2px solid #0385FD;
-  border-radius: 5px;
-`
-
-export const ButtonBase = styled.button`
-  width: 25.0625rem;
-  height: 3.75rem;
-
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
-  border-radius: 5px;
-
-  border: none;
-
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 1.25rem;
-  line-height: 1.25rem;
-  color: ${({ theme }) => theme.white};
-
-  :hover {
-    opacity: 0.9;
-    cursor: pointer;
-  }
-`
-
-export const SignInButton = styled(ButtonBase)`
+export const SignInButton = styled(BaseButton)`
   background: ${({ theme }) => theme['blue-600']};
 `
 
-export const SignUpButton = styled(ButtonBase)`
+export const SignUpButton = styled(BaseButton)`
   background: ${({ theme }) => theme['green-200']};
 `
