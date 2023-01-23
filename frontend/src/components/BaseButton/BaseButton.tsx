@@ -1,12 +1,12 @@
 import styled, { css } from "styled-components"
 
 interface BaseButtonProps {
-  width?: string;
+  customWidth?: string;
   height?: string;
 }
 
 export const BaseButton = styled.button<BaseButtonProps>`
-  ${({ width }) => width ? css`width: ${width}` : `width: 25.0625rem`};
+  ${({ customWidth }) => customWidth ? css`width: ${customWidth} !important` : `width: 25.0625rem !important`};
   ${({ height }) => height ? css`height: ${height}` : `height: 3.75rem`};
 
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);

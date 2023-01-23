@@ -13,13 +13,24 @@ export const InputLabel = styled.label`
   text-align: left;
   
   color: #373737;
-  `
+`
 
-export const InputBase = styled.input`
+interface InputBaseProps {
+  customSize: 'small' | 'medium' | 'large'
+  width?: string
+}
+
+const sizes = {
+  small: '2.8125rem',
+  medium: '3.75rem',
+  large: '4.5rem'
+}
+
+export const InputBase = styled.input<InputBaseProps>`
   box-sizing: border-box;
 
-  width: 25rem;
-  height: 3.75rem;
+  ${({ width }) => width ? `width: ${width}` : `width: 25rem`};
+  height: ${({ customSize }) => sizes[customSize]};
 
   border: 2px solid #0385FD;
   border-radius: 5px;
@@ -41,17 +52,34 @@ export const InputAndLabelContainer = styled.div`
   gap: 7px;
 `
 
-interface InputBaseProps {
-  label: string;
-  type: React.HTMLInputTypeAttribute | undefined;
-  id: 'string'
+interface InputWithLabelProps {
+  options?: {
+    size?: 'small' | 'medium' | 'large'
+    width?: string
+  }
+  label?: string;
+  type?: React.HTMLInputTypeAttribute | undefined;
+  id?: string
+  value?: string
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  maxLength?: number
 }
 
-export const InputWithLabel = () => {
+export const InputWithLabel = ({ label, id, type, onChange, value, options = { size: 'medium' }, maxLength }: InputWithLabelProps) => {
+  const { size = 'medium', width } = options
+
   return (
     <InputAndLabelContainer>
-      <InputLabel htmlFor='password' >Repetir Senha</InputLabel>
-      <InputBase id="password" type="password" />
+      <InputLabel htmlFor={id} >{label}</InputLabel>
+      <InputBase
+        id={id}
+        type={type}
+        customSize={size}
+        width={width}
+        value={value}
+        onChange={onChange}
+        maxLength={maxLength}
+      />
     </InputAndLabelContainer>
   )
 }
