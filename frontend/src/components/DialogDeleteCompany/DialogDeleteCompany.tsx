@@ -1,5 +1,4 @@
 import { ReactNode, useState } from 'react'
-import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -7,10 +6,8 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
-import { ButtonToAdd, FieldContainer } from './style'
-import { InputBase, InputWithLabel } from '../BaseInput/BaseInput'
-import EditIcon from '@mui/icons-material/Edit'
-import { cnpjMask } from '../../utils/masks'
+import { ButtonToRemove } from './style'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -25,29 +22,6 @@ export const CustomBootstrapDialog = styled(BootstrapDialog)`
   .MuiPaper-root {
     border-radius: 8px;
   }
-`
-
-const CustomBootstrapDialogTitle = styled(BootstrapDialogTitle)`
-  background-color: #0385FD;
-  border-radius: 8px 8px 0px 0px;
-  color: white;
-  padding-left: 31px;
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 1.5625rem;
-  line-height: 1.875rem;
-
-  text-align: left;
-`
-
-const CustomDialogContent = styled(DialogContent)`
-  height: 303px;
-  padding: 31px !important;
-`
-
-const CustomDialogActions = styled(DialogActions)`
-  padding: 18px 34px !important;
 `
 
 export interface DialogTitleProps {
@@ -80,12 +54,43 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
-interface DialogAddCompanyProps {
-  isEditMode?: boolean
+const CustomBootstrapDialogTitle = styled(BootstrapDialogTitle)`
+  background-color: #C90808;
+  border-radius: 8px 8px 0px 0px;
+  color: white;
+  padding-left: 31px;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 1.5625rem;
+  line-height: 1.875rem;
+
+  text-align: left;
+`
+
+const CustomDialogContent = styled(DialogContent)`
+  height: 133px;
+  padding: 31px !important;
+
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+
+
+  color: #000000;
+`
+
+const CustomDialogActions = styled(DialogActions)`
+  padding: 18px 34px !important;
+`
+
+interface DialogDeleteCompanyProps {
+  type: 'company' | 'location'
 }
 
-export const DialogAddCompany = ({ isEditMode }: DialogAddCompanyProps) => {
-  const [cnpj, setCnpj] = useState('')
+export const DialogDeleteCompany = ({ type }: DialogDeleteCompanyProps) => {
   const [open, setOpen] = useState(false)
 
   const handleClickOpen = () => {
@@ -98,56 +103,37 @@ export const DialogAddCompany = ({ isEditMode }: DialogAddCompanyProps) => {
 
   return (
     <div>
-      {
-        isEditMode ? (
-          <IconButton
-            onClick={handleClickOpen}
-            color="inherit"
-          >
-            <EditIcon />
-          </IconButton>
-        ) : (
-          <ButtonToAdd onClick={handleClickOpen} customWidth="16.125rem" height="3.125rem">Adicionar Empresa</ButtonToAdd>
-        )
-      }
+      <IconButton
+        onClick={handleClickOpen}
+        color="error"
+      >
+        <DeleteIcon />
+      </IconButton>
+
       <CustomBootstrapDialog
         onClose={handleClose}
         aria-labelledby="add-company-dialog"
-        maxWidth="lg"
+        maxWidth="sm"
         open={open}
       >
         <CustomBootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          {
-            isEditMode ? `Editar: ${'Nome da empresa aqui'}` : 'Adicionar Empresa'
-          }
+          Confirmação de exclusão
         </CustomBootstrapDialogTitle>
+
         <CustomDialogContent dividers>
-
-          <InputWithLabel id="name" type="text" label="Nome" options={{ width: '100%', size: 'small' }} />
-          <FieldContainer>
-            <InputWithLabel id="website" type="text" label="Website" options={{ size: 'small' }} />
-
-            <InputWithLabel
-              id="cnpj"
-              type="text"
-              label="CNPJ"
-              options={{ size: 'small' }}
-              value={cnpjMask(cnpj)}
-              onChange={(e: any) => setCnpj(e.target.value)}
-              maxLength={18}
-            />
-          </FieldContainer>
-
+          {type === 'company' ? 'A empresa' : 'O local'} <strong>{'Empresa do Janiu (Caucaia)'}</strong> será excluída.
+          Tem certeza dessa ação?
         </CustomDialogContent>
+
         <CustomDialogActions>
-          <ButtonToAdd
+          <ButtonToRemove
             autoFocus
             onClick={handleClose}
             height='2.8125rem'
             customWidth='9.1875rem'
           >
-            Adicionar
-          </ButtonToAdd>
+            Excluir
+          </ButtonToRemove>
         </CustomDialogActions>
       </CustomBootstrapDialog>
     </div >

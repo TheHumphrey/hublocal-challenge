@@ -1,7 +1,14 @@
-import { Button, ButtonGroup, IconButton, styled } from "@mui/material"
+import {
+  Button,
+  ButtonGroup,
+  IconButton,
+  styled
+} from "@mui/material"
 import RoomIcon from '@mui/icons-material/Room'
-import EditIcon from '@mui/icons-material/Edit'
-import DeleteIcon from '@mui/icons-material/Delete'
+
+import { DialogAddCompany } from "../../components/DialogAddCompany/DialogAddCompany"
+import { DialogDeleteCompany } from "../../components/DialogDeleteCompany/DialogDeleteCompany"
+
 import {
   MyCompaniesContainer,
   TableContainer,
@@ -14,9 +21,10 @@ import {
   WithOutCompaniesContainer,
   TableFooter,
   TableFooterFieldsContainer,
-  FooterPageField
+  FooterPageField,
+  ButtonContainer
 } from "./style"
-import { DialogAddCompany } from "../../components/DialogAddCompany/DialogAddCompany"
+import { useNavigate } from "react-router-dom"
 
 const ButtonToTableFooter = styled(Button)`
   height: 28px;
@@ -33,6 +41,7 @@ const ButtonToTableFooter = styled(Button)`
 const options = []
 
 export const MyCompanies = () => {
+  const navigate = useNavigate()
 
   const existCompanies = options.length > 0 ? false : true
 
@@ -40,7 +49,10 @@ export const MyCompanies = () => {
     <MyCompaniesContainer>
       {existCompanies ? (
         <WithCompaniesContainer>
-          <DialogAddCompany />
+          <ButtonContainer>
+            <DialogAddCompany />
+          </ButtonContainer>
+
           <TableContainer>
             <TableHeader>
               <TableTitleText>Empresa</TableTitleText>
@@ -52,24 +64,14 @@ export const MyCompanies = () => {
               <TableLineText>Empresa do Bobzão</TableLineText>
               <TableLineText>10</TableLineText>
               <TableLineText>
+                <DialogAddCompany isEditMode />
                 <IconButton
-                  onClick={() => { }}
-                  color="inherit"
-                >
-                  <EditIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => { }}
+                  onClick={() => navigate('./location/1', { replace: false })}
                   color="inherit"
                 >
                   <RoomIcon />
                 </IconButton>
-                <IconButton
-                  onClick={() => { }}
-                  color="error"
-                >
-                  <DeleteIcon />
-                </IconButton>
+                <DialogDeleteCompany type="company" />
               </TableLineText>
             </TableBody>
 

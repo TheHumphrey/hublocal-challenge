@@ -7,10 +7,10 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
-import { ButtonToAdd, FieldContainer } from './style'
 import { InputBase, InputWithLabel } from '../BaseInput/BaseInput'
 import EditIcon from '@mui/icons-material/Edit'
 import { cnpjMask } from '../../utils/masks'
+import { ButtonToAdd, FieldContainer } from '../DialogAddCompany/style'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -42,7 +42,7 @@ const CustomBootstrapDialogTitle = styled(BootstrapDialogTitle)`
 `
 
 const CustomDialogContent = styled(DialogContent)`
-  height: 303px;
+  height: 403px;
   padding: 31px !important;
 `
 
@@ -80,12 +80,11 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   );
 }
 
-interface DialogAddCompanyProps {
-  isEditMode?: boolean
+interface DialogAddLocationProps {
+  isEditMode?: boolean;
 }
 
-export const DialogAddCompany = ({ isEditMode }: DialogAddCompanyProps) => {
-  const [cnpj, setCnpj] = useState('')
+export const DialogAddLocation = ({ isEditMode }: DialogAddLocationProps) => {
   const [open, setOpen] = useState(false)
 
   const handleClickOpen = () => {
@@ -107,7 +106,7 @@ export const DialogAddCompany = ({ isEditMode }: DialogAddCompanyProps) => {
             <EditIcon />
           </IconButton>
         ) : (
-          <ButtonToAdd onClick={handleClickOpen} customWidth="16.125rem" height="3.125rem">Adicionar Empresa</ButtonToAdd>
+          <ButtonToAdd onClick={handleClickOpen} customWidth="16.125rem" height="3.125rem">Adicionar Local</ButtonToAdd>
         )
       }
       <CustomBootstrapDialog
@@ -118,23 +117,56 @@ export const DialogAddCompany = ({ isEditMode }: DialogAddCompanyProps) => {
       >
         <CustomBootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
           {
-            isEditMode ? `Editar: ${'Nome da empresa aqui'}` : 'Adicionar Empresa'
+            isEditMode ? `Editar: ${'Nome do local aqui'}` : 'Adicionar local'
           }
         </CustomBootstrapDialogTitle>
         <CustomDialogContent dividers>
 
           <InputWithLabel id="name" type="text" label="Nome" options={{ width: '100%', size: 'small' }} />
+
           <FieldContainer>
-            <InputWithLabel id="website" type="text" label="Website" options={{ size: 'small' }} />
+            <InputWithLabel
+              id="cep"
+              type="text"
+              label="CEP"
+              options={{ size: 'small' }}
+            />
 
             <InputWithLabel
-              id="cnpj"
+              id="rua"
               type="text"
-              label="CNPJ"
+              label="Rua"
               options={{ size: 'small' }}
-              value={cnpjMask(cnpj)}
-              onChange={(e: any) => setCnpj(e.target.value)}
-              maxLength={18}
+            />
+          </FieldContainer>
+          <FieldContainer>
+            <InputWithLabel
+              id="number"
+              type="text"
+              label="Número"
+              options={{ size: 'small' }}
+            />
+
+            <InputWithLabel
+              id="bairro"
+              type="text"
+              label="Bairro"
+              options={{ size: 'small' }}
+            />
+          </FieldContainer>
+          <FieldContainer>
+            <InputWithLabel
+              id="city"
+              type="text"
+              label="Cidade"
+              options={{ size: 'small' }}
+            />
+
+            <InputWithLabel
+              id="state"
+              type="text"
+              label="Estado"
+              options={{ size: 'small' }}
             />
           </FieldContainer>
 

@@ -1,29 +1,5 @@
 import styled, { css } from 'styled-components'
 
-export const MyCompaniesContainer = styled.main`
-  width: 100vw;
-  height: 91%;
-`
-
-export const WithCompaniesContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  position: relative;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-  gap: 25px;
-`
-
-export const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: right;
-  width: 1212px;
-`
-
 export const TableContainer = styled.div`
   width: 1212px;
   height: 433px;
@@ -39,7 +15,7 @@ export const TableHeader = styled.div`
   height: 68px;
 
   display: grid;
-  grid-template-columns: 55.2% 18% 1fr;
+  grid-template-columns: 73.2% 1fr;
   border-bottom: 1px solid ${({ theme }) => theme['white-200']};
 `
 
@@ -65,7 +41,7 @@ export const TableBody = styled.div`
   height: 68px;
 
   display: grid;
-  grid-template-columns: 55.2% 18% 1fr;
+  grid-template-columns: 73.2% 1fr;
   border-bottom: 1px solid ${({ theme }) => theme['white-200']};
 `
 
@@ -140,30 +116,3 @@ export const FooterPageField = styled.strong<FooterPageFieldProps>`
   color: ${({ theme }) => theme.black};
   ${({ withoutRightBorder }) => !withoutRightBorder && (css`border-right: 1px solid #E4E4E4;`)}
 `
-
-export const WithOutCompaniesContainer = styled.div`
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-  gap: 35px;
-`
-
-export const Title = styled.h1`
-  width: 37.4375rem;
-  height: 8.125rem;
-
-  font-family: 'Poppins';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 60px;
-  line-height: 65px;
-  text-align: center;
-
-  color: #000000;
-`
-
