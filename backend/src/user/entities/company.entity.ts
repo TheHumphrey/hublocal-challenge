@@ -2,11 +2,11 @@ import { User } from './user.entity';
 import { Location } from './location.entity';
 
 export class Company {
-  id: string;
+  id?: string;
   name: string;
   website: string;
   cnpj: string;
   locations?: Location[];
-  userId: string;
-  user: User;
+  userId?: string;
+  user?: User;
 }

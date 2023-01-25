@@ -14,10 +14,11 @@ model Company {
   id        String     @id @default(uuid())
   name      String
   website   String
-  cnpj      String     @unique
+  cnpj      String
   locations Location[]
   userId    String
   user      User       @relation(fields: [userId], references: [id])
+  isActive  Boolean    @default(true)
 }
 
 model Location {
@@ -31,6 +32,7 @@ model Location {
   state     String
   companyId String
   company   Company @relation(fields: [companyId], references: [id])
+  isActive  Boolean @default(true)
 }
 
 model User {
