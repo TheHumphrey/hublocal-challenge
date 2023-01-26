@@ -33,6 +33,8 @@ export const LoggedLayout = () => {
     setOpen(false);
   };
 
+  const limitedNameToEightLenght = (name: string) => name?.substring(0, 8)
+
   return (
     <LayoutContainer>
       <LayoutHeaderContainer>
@@ -44,8 +46,8 @@ export const LoggedLayout = () => {
         </CompanyNameContainer>
 
         <UserContainer>
-          <UserAvatar src="https://www.conveniomedicoveterinario.com.br/wp-content/uploads/2022/08/dia-do-husky-siberiano-convenio-veterinario-comvet.jpg" />
-          <UserName>{user.name}</UserName>
+          <UserAvatar src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/2022/10/Pochita-Good-Boy-%E2%80%93-CHAINSAW-MAN-Episode-1.jpg" />
+          <UserName>{limitedNameToEightLenght(user.name)}</UserName>
           <>
             <ButtonGroup aria-label="split button" ref={anchorRef}>
               <IconButton

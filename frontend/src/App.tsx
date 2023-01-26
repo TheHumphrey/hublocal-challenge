@@ -1,6 +1,7 @@
 import { BrowserRouter } from "react-router-dom"
 import { ThemeProvider } from "styled-components"
 import { GlobalSnackBar } from "./components/GlobalSnackBar/GlobalSnackBar"
+import { CompanyProvider } from "./contexts/CompaniesContext"
 import { GlobalSnackBarProvider } from "./contexts/GlobalSnackBarContext"
 import { LoginProvider } from "./contexts/LoginContext"
 import { Router } from "./routes"
@@ -13,11 +14,13 @@ const App = () => {
     <BrowserRouter>
       <GlobalSnackBarProvider>
         <LoginProvider>
-          <ThemeProvider theme={defaultTheme}>
-            <Router />
-            <GlobalSnackBar />
-            <GlobalStyle />
-          </ThemeProvider>
+          <CompanyProvider>
+            <ThemeProvider theme={defaultTheme}>
+              <Router />
+              <GlobalSnackBar />
+              <GlobalStyle />
+            </ThemeProvider>
+          </CompanyProvider>
         </LoginProvider>
       </GlobalSnackBarProvider>
     </BrowserRouter>

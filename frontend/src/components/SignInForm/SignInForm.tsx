@@ -34,12 +34,14 @@ export const SignInForm = ({ changeToSignUpForm }: SignInFormProps) => {
       event.preventDefault()
       if (!email || !password) return
       setIsFetching(true)
+
       const response = await singIn(email, password)
 
-      navigate('/companies')
+      response && navigate('/companies')
 
       setIsFetching(false)
     } catch (err) {
+      event.preventDefault()
       setIsFetching(false)
     }
   }

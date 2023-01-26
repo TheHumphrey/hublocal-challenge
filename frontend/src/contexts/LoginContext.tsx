@@ -1,7 +1,9 @@
+import { AxiosError } from "axios";
 import { ReactNode, useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { createContext } from "use-context-selector";
+import { createContext, useContextSelector } from "use-context-selector";
 import { hublocalApi } from "../services/api";
+import { GlobalSnackBarContext } from "./GlobalSnackBarContext";
 
 interface User {
   id: string,
@@ -14,13 +16,20 @@ interface SignInResponse {
   access_token: string
 }
 
+export interface ErrorResponseBody {
+  message: string
+  error: string
+  statusCode: number
+}
+
 interface LoginContextType {
-  singIn(email: string, password: string): Promise<void>
+  singIn(email: string, password: string): Promise<boolean>
   singUp(name: string, email: string, password: string): Promise<boolean>
   logOut(): void
   user: User
   isAuth: boolean
   isFetching: boolean
+  accessToken: string
 }
 
 const localStorageKeys = 'user'
@@ -33,10 +42,12 @@ interface LoginProviderProps {
 
 export const LoginProvider = ({ children }: LoginProviderProps) => {
   const [user, setUser] = useState({} as User)
-  const [accessToken, setAccessToken] = useState('')
   const [cookies, setCookies] = useCookies(['access_token'])
-  const [isAuth, setIsAuth] = useState(false)
+  const [accessToken, setAccessToken] = useState(cookies?.access_token)
+  const [isAuth, setIsAuth] = useState(!!cookies?.access_token)
   const [isFetching, setIsFetching] = useState(false)
+
+  const handleRenderSnackBar = useContextSelector(GlobalSnackBarContext, (context) => context.handleRenderSnackBar)
 
   useEffect(() => {
     const userDataOnLocalStorage = localStorage.getItem(localStorageKeys)
@@ -60,9 +71,13 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
       localStorage.setItem(localStorageKeys, JSON.stringify(data.user))
       setIsAuth(true)
       setIsFetching(false)
-    } catch (err) {
-      console.warn(err)
+      handleRenderSnackBar('Login realizado com sucesso!', 'success')
+      return true
+    } catch (error) {
+      const err = error as AxiosError<ErrorResponseBody>
       setIsFetching(false)
+      handleRenderSnackBar(err?.response?.data.message!, 'error')
+      return false
     }
   }
 
@@ -72,11 +87,14 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
         setIsFetching(true)
         await hublocalApi.post('user/create', { name, email, password })
         setIsFetching(false)
+        handleRenderSnackBar('Cadastro Realizado com sucesso!', 'success')
         return true
       }
       return false
-    } catch (err) {
-      console.warn(err)
+    } catch (error) {
+      const err = error as AxiosError<ErrorResponseBody>
+      setIsFetching(false)
+      handleRenderSnackBar(err?.response?.data.message!, 'error')
       setIsFetching(false)
       return false
     }
@@ -94,7 +112,7 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
   }
 
   return (
-    <LoginContext.Provider value={{ singIn, singUp, logOut, user, isAuth, isFetching }}>
+    <LoginContext.Provider value={{ singIn, singUp, logOut, user, isAuth, isFetching, accessToken }}>
       {children}
     </LoginContext.Provider>
   )

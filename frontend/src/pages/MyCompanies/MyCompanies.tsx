@@ -25,6 +25,9 @@ import {
   ButtonContainer
 } from "./style"
 import { useNavigate } from "react-router-dom"
+import { CompanyContext } from "../../contexts/CompaniesContext"
+import { useContextSelector } from "use-context-selector"
+import { useEffect } from "react"
 
 const ButtonToTableFooter = styled(Button)`
   height: 28px;
@@ -42,8 +45,18 @@ const options = []
 
 export const MyCompanies = () => {
   const navigate = useNavigate()
+  const { companies, getCompanies } = useContextSelector(CompanyContext, (context) => {
+    return {
+      companies: context.companies,
+      getCompanies: context.getCompanies
+    }
+  })
 
-  const existCompanies = options.length > 0 ? false : true
+  useEffect(() => {
+    getCompanies()
+  }, [])
+
+  const existCompanies = companies.length > 0 ? true : false
 
   return (
     <MyCompaniesContainer>
@@ -61,18 +74,24 @@ export const MyCompanies = () => {
             </TableHeader>
 
             <TableBody>
-              <TableLineText>Empresa do Bobzão</TableLineText>
-              <TableLineText>10</TableLineText>
-              <TableLineText>
-                <DialogAddCompany isEditMode />
-                <IconButton
-                  onClick={() => navigate('./location/1', { replace: false })}
-                  color="inherit"
-                >
-                  <RoomIcon />
-                </IconButton>
-                <DialogDeleteCompany type="company" />
-              </TableLineText>
+              {
+                companies?.map(company => (
+                  <>
+                    <TableLineText key={company.id}>{company.name}</TableLineText>
+                    <TableLineText>10</TableLineText>
+                    <TableLineText>
+                      <DialogAddCompany isEditMode currentCompany={company} />
+                      <IconButton
+                        onClick={() => navigate(`./location/${company.id}`, { replace: false })}
+                        color="inherit"
+                      >
+                        <RoomIcon />
+                      </IconButton>
+                      <DialogDeleteCompany type="company" />
+                    </TableLineText>
+                  </>
+                ))
+              }
             </TableBody>
 
             <TableFooter>

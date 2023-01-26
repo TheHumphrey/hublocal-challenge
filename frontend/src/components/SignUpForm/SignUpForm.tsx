@@ -35,12 +35,27 @@ export const SignUpForm = ({ changeToSignUpForm }: SignUpFormProps) => {
       event.preventDefault()
       if (!email || !password || !name || !repeatPassword) return
       if (password !== repeatPassword) return
-      await singUp(name, email, password)
+      const response = await singUp(name, email, password)
 
-      changeToSignUpForm()
+      response && changeToSignUpForm()
     } catch (err) {
       console.warn(err)
     }
+  }
+
+  function onChangeName(event: React.ChangeEvent<HTMLInputElement>) {
+    setName(event.target.value)
+  }
+
+  function onChangeEmail(event: React.ChangeEvent<HTMLInputElement>) {
+    setEmail(event.target.value)
+  }
+
+  function onChangePassword(event: React.ChangeEvent<HTMLInputElement>) {
+    setPassword(event.target.value)
+  }
+  function onChangeRepeatPassword(event: React.ChangeEvent<HTMLInputElement>) {
+    setRepeatPassword(event.target.value)
   }
 
   return (
@@ -48,22 +63,22 @@ export const SignUpForm = ({ changeToSignUpForm }: SignUpFormProps) => {
       <SignInInputContainer>
         <InputAndLabelContainer>
           <InputLabel htmlFor='name'>Nome</InputLabel>
-          <InputBase id="name" customSize="medium" />
+          <InputBase id="name" customSize="medium" onBlur={onChangeName} />
         </InputAndLabelContainer>
 
         <InputAndLabelContainer>
           <InputLabel htmlFor='email'>Email</InputLabel>
-          <InputBase id="email" customSize="medium" />
+          <InputBase id="email" customSize="medium" onBlur={onChangeEmail} />
         </InputAndLabelContainer>
 
         <InputAndLabelContainer>
           <InputLabel htmlFor='password' >Senha</InputLabel>
-          <InputBase id="password" type="password" customSize="medium" />
+          <InputBase id="password" type="password" customSize="medium" onBlur={onChangePassword} />
         </InputAndLabelContainer>
 
         <InputAndLabelContainer>
           <InputLabel htmlFor='repeat-password' >Repetir Senha</InputLabel>
-          <InputBase id="repeat-password" type="password" customSize="medium" />
+          <InputBase id="repeat-password" type="password" customSize="medium" onChange={onChangeRepeatPassword} />
         </InputAndLabelContainer>
       </SignInInputContainer>
 

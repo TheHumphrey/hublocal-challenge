@@ -11,6 +11,8 @@ import { ButtonToAdd, FieldContainer } from './style'
 import { InputBase, InputWithLabel } from '../BaseInput/BaseInput'
 import EditIcon from '@mui/icons-material/Edit'
 import { cnpjMask } from '../../utils/masks'
+import { Company, CompanyContext } from '../../contexts/CompaniesContext'
+import { useContextSelector } from 'use-context-selector'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -82,11 +84,20 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 
 interface DialogAddCompanyProps {
   isEditMode?: boolean
+  currentCompany?: Company
 }
 
-export const DialogAddCompany = ({ isEditMode }: DialogAddCompanyProps) => {
+export const DialogAddCompany = ({ isEditMode, currentCompany }: DialogAddCompanyProps) => {
   const [cnpj, setCnpj] = useState('')
+  const [website, setWebsite] = useState('')
+  const [name, setName] = useState('')
   const [open, setOpen] = useState(false)
+
+  const { createNewCompany } = useContextSelector(CompanyContext, (context) => {
+    return {
+      createNewCompany: context.createNewCompany
+    }
+  })
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -94,6 +105,21 @@ export const DialogAddCompany = ({ isEditMode }: DialogAddCompanyProps) => {
 
   const handleClose = () => {
     setOpen(false)
+  }
+
+  const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value)
+  }
+  const onChangeCnpj = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCnpj(event.target.value)
+  }
+  const onChangeWebsite = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setWebsite(event.target.value)
+  }
+
+  const onSubmit = async () => {
+    const iscreatedOrEdited = await createNewCompany({ name, cnpj, website })
+    iscreatedOrEdited && handleClose()
   }
 
   return (
@@ -123,9 +149,23 @@ export const DialogAddCompany = ({ isEditMode }: DialogAddCompanyProps) => {
         </CustomBootstrapDialogTitle>
         <CustomDialogContent dividers>
 
-          <InputWithLabel id="name" type="text" label="Nome" options={{ width: '100%', size: 'small' }} />
+          <InputWithLabel
+            id="name"
+            type="text"
+            label="Nome"
+            value={name}
+            options={{ width: '100%', size: 'small' }}
+            onChange={onChangeName}
+          />
           <FieldContainer>
-            <InputWithLabel id="website" type="text" label="Website" options={{ size: 'small' }} />
+            <InputWithLabel
+              id="website"
+              type="text"
+              label="Website"
+              value={website}
+              options={{ size: 'small' }}
+              onChange={onChangeWebsite}
+            />
 
             <InputWithLabel
               id="cnpj"
@@ -133,7 +173,7 @@ export const DialogAddCompany = ({ isEditMode }: DialogAddCompanyProps) => {
               label="CNPJ"
               options={{ size: 'small' }}
               value={cnpjMask(cnpj)}
-              onChange={(e: any) => setCnpj(e.target.value)}
+              onChange={onChangeCnpj}
               maxLength={18}
             />
           </FieldContainer>
@@ -142,7 +182,7 @@ export const DialogAddCompany = ({ isEditMode }: DialogAddCompanyProps) => {
         <CustomDialogActions>
           <ButtonToAdd
             autoFocus
-            onClick={handleClose}
+            onClick={onSubmit}
             height='2.8125rem'
             customWidth='9.1875rem'
           >
