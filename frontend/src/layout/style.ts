@@ -16,7 +16,11 @@ export const LayoutHeaderContainer = styled.div`
   background-color: ${({ theme }) => theme.white};
 `
 
-export const CompanyNameContainer = styled.div`
+interface CompanyNameContainerProps {
+  isOnLocationPage?: boolean;
+}
+
+export const CompanyNameContainer = styled.div<CompanyNameContainerProps>`
   display: flex;
   flex-direction: row;
   height: 80px;
@@ -24,6 +28,8 @@ export const CompanyNameContainer = styled.div`
   align-items: center;
   gap: 10px;
   padding: 34px;
+
+  background: ${({ theme, isOnLocationPage }) => isOnLocationPage ? `${theme['gray-300']}` : 'transparent'};
 `
 
 export const CompanyName = styled.h1`

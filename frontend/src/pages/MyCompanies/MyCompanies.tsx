@@ -42,8 +42,6 @@ const ButtonToTableFooter = styled(Button)`
   text-transform: none;
 `
 
-const options = []
-
 export const MyCompanies = () => {
   const navigate = useNavigate()
   const { companies, getCompanies } = useContextSelector(CompanyContext, (context) => {

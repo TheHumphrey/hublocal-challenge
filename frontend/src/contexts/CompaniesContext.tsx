@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { ReactNode, useCallback, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { createContext, useContextSelector } from "use-context-selector";
 import { hublocalApi } from "../services/api";
 import { GlobalSnackBarContext } from "./GlobalSnackBarContext";
@@ -35,6 +35,8 @@ interface CompanyContextType {
   createNewLocation(newLocation: Location, companyId: string): Promise<boolean>
   putLocationById(location: Location): Promise<boolean>
   deleteLocationById(id: number): Promise<boolean>
+  companySelectedId: string
+  onChangeSelectedCompanyOnLayout(event: React.ChangeEvent<HTMLSelectElement>): void
 }
 
 export const CompanyContext = createContext({} as CompanyContextType)
@@ -46,9 +48,15 @@ interface CompanyProviderProps {
 export const CompanyProvider = ({ children }: CompanyProviderProps) => {
   const [companies, setCompanies] = useState<Company[]>([])
   const [locations, setLocations] = useState<Location[]>([])
+  const [companySelectedId, setCompanySelectedId] = useState('')
 
   const token = useContextSelector(LoginContext, (context) => context.accessToken)
   const handleRenderSnackBar = useContextSelector(GlobalSnackBarContext, (context) => context.handleRenderSnackBar)
+
+
+  useEffect(() => {
+    token && getCompanies()
+  }, [])
 
   const config = {
     headers: { Authorization: `Bearer ${token}` }
@@ -56,6 +64,7 @@ export const CompanyProvider = ({ children }: CompanyProviderProps) => {
 
   async function getCompanies() {
     try {
+      if (companies.length !== 0) return
       const { data } = await hublocalApi.get<Company[]>('/app/companies', config)
       setCompanies(data)
     } catch (error) {
@@ -165,6 +174,11 @@ export const CompanyProvider = ({ children }: CompanyProviderProps) => {
     }
   }
 
+  function onChangeSelectedCompanyOnLayout(event: React.ChangeEvent<HTMLSelectElement>) {
+    if (event.target.value) return
+    setCompanySelectedId(event.target.value)
+  }
+
   return (
     <CompanyContext.Provider value={{
       companies,
@@ -176,7 +190,9 @@ export const CompanyProvider = ({ children }: CompanyProviderProps) => {
       getLocations,
       createNewLocation,
       putLocationById,
-      deleteLocationById
+      deleteLocationById,
+      onChangeSelectedCompanyOnLayout,
+      companySelectedId
     }}>
       {children}
     </CompanyContext.Provider>

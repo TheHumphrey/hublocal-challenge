@@ -7,6 +7,7 @@ import { LocationTable } from "../../components/LocationTable/LocationTable";
 import { ButtonContainer } from "../MyCompanies/style";
 import { useContextSelector } from "use-context-selector";
 import { CompanyContext } from "../../contexts/CompaniesContext";
+import { useEffect } from "react";
 
 const CustomIconButton = styled(IconButton)`
   display: flex;
@@ -36,11 +37,16 @@ export const MyLocations = () => {
   const { id } = useParams()
   const navigate = useNavigate()
 
-  const { locations } = useContextSelector(CompanyContext, (context) => {
+  const { locations, getLocations } = useContextSelector(CompanyContext, (context) => {
     return {
-      locations: context.locations
+      locations: context.locations,
+      getLocations: context.getLocations
     }
   })
+
+  useEffect(() => {
+    id && getLocations(id)
+  }, [id])
 
   const isRenderTableOrNot = locations.length === 0
 
