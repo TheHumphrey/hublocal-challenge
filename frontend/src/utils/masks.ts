@@ -25,3 +25,19 @@ export function cpfMask(value: string) {
     return ''
   }
 }
+
+export function cepMask(value: string) {
+  try {
+    if (value.length <= 5) return value
+
+    const valueMasked = value.replaceAll('-', '').substring(0, 5) + '-' + value.replaceAll('-', '').substring(5)
+    return valueMasked
+  } catch (err) {
+    console.warn(err)
+    return ''
+  }
+}
+
+export function validateOnlyNumber(value: string) {
+  return value.replaceAll(/[^0-9.]/g, '')
+}

@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import { InputBase, InputWithLabel } from '../BaseInput/BaseInput'
 import EditIcon from '@mui/icons-material/Edit'
-import { cnpjMask } from '../../utils/masks'
+import { cepMask, cnpjMask, validateOnlyNumber } from '../../utils/masks'
 import { ButtonToAdd, FieldContainer } from '../DialogAddCompany/style'
 import { useContextSelector } from 'use-context-selector'
 import { CompanyContext, Location } from '../../contexts/CompaniesContext'
@@ -120,6 +120,9 @@ export const DialogAddLocation = ({ isEditMode, currentLocation, companyId }: Di
   }
 
   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>, field: FieldsKey) => {
+    if (field === 'cep') {
+      return setInputs(state => ({ ...state, [field]: validateOnlyNumber(event.target.value) }))
+    }
     setInputs(state => ({ ...state, [field]: event.target.value }))
   }
 
@@ -179,7 +182,8 @@ export const DialogAddLocation = ({ isEditMode, currentLocation, companyId }: Di
               id="cep"
               type="text"
               label="CEP"
-              value={inputs.cep}
+              value={cepMask(inputs.cep)}
+              maxLength={9}
               onChange={(event) => onChangeInput(event, 'cep')}
               options={{ size: 'small' }}
             />

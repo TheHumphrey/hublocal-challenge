@@ -10,7 +10,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { ButtonToAdd, FieldContainer } from './style'
 import { InputBase, InputWithLabel } from '../BaseInput/BaseInput'
 import EditIcon from '@mui/icons-material/Edit'
-import { cnpjMask } from '../../utils/masks'
+import { cnpjMask, validateOnlyNumber } from '../../utils/masks'
 import { Company, CompanyContext } from '../../contexts/CompaniesContext'
 import { useContextSelector } from 'use-context-selector'
 
@@ -112,7 +112,7 @@ export const DialogAddCompany = ({ isEditMode, currentCompany }: DialogAddCompan
     setName(event.target.value)
   }
   const onChangeCnpj = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCnpj(event.target.value)
+    setCnpj(validateOnlyNumber(event.target.value))
   }
   const onChangeWebsite = (event: React.ChangeEvent<HTMLInputElement>) => {
     setWebsite(event.target.value)
