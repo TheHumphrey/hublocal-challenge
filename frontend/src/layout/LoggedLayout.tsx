@@ -4,10 +4,19 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { ButtonGroup, ClickAwayListener, Grow, IconButton, MenuItem, MenuList, Paper, Popper } from "@mui/material";
 import { useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
+import { useContextSelector } from "use-context-selector";
+import { LoginContext } from "../contexts/LoginContext";
 
 export const LoggedLayout = () => {
   const [open, setOpen] = useState(false)
   const anchorRef = useRef<HTMLDivElement>(null)
+
+  const { logOut, user } = useContextSelector(LoginContext, (context) => {
+    return {
+      logOut: context.logOut,
+      user: context.user
+    }
+  })
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -36,7 +45,7 @@ export const LoggedLayout = () => {
 
         <UserContainer>
           <UserAvatar src="https://www.conveniomedicoveterinario.com.br/wp-content/uploads/2022/08/dia-do-husky-siberiano-convenio-veterinario-comvet.jpg" />
-          <UserName>Janiu</UserName>
+          <UserName>{user.name}</UserName>
           <>
             <ButtonGroup aria-label="split button" ref={anchorRef}>
               <IconButton
@@ -67,7 +76,7 @@ export const LoggedLayout = () => {
                     <ClickAwayListener onClickAway={handleClose}>
                       <MenuList id="split-button-menu" autoFocusItem>
                         <MenuItem
-                          onClick={() => { }}
+                          onClick={logOut}
                         >
                           LogOut
                         </MenuItem>

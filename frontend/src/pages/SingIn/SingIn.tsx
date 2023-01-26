@@ -7,23 +7,22 @@ import {
   LeftFooterTitle,
   LeftImage,
   LeftImgContainer,
-  SignInInputContainer,
-  RightContainer,
-  RightImageLogo,
-  InputLabel,
-  InputAndLabelContainer,
   RightCardContainer,
-  SignInButton,
-  SignUpButton
+  RightContainer,
+  RightImageLogo
 } from "./style"
 
-import ImageSingIn from '../../assets/SignInImage.png'
 import FullLogo from '../../assets/fulllogo.svg'
-import { InputBase } from "../../components/BaseInput/BaseInput"
+import ImageSingIn from '../../assets/SignInImage.png'
+import { SignInForm } from "../../components/SignInForm/SignInForm"
+import { SignUpForm } from "../../components/SignUpForm/SignUpForm"
 
 export const SingIn = () => {
-
   const [isSignIn, setIsSignIn] = useState(true)
+
+  const handleChangeSignInToSignUpForm = () => {
+    setIsSignIn(state => !state)
+  }
 
   return (
     <Container>
@@ -46,56 +45,10 @@ export const SingIn = () => {
         <RightCardContainer>
           <RightImageLogo src={FullLogo} />
           {
-            isSignIn ? (
-              <>
-                <SignInInputContainer>
-                  <InputAndLabelContainer>
-                    <InputLabel htmlFor='email'>Email</InputLabel>
-                    <InputBase id="email" />
-                  </InputAndLabelContainer>
-
-                  <InputAndLabelContainer>
-                    <InputLabel htmlFor='password'>Senha</InputLabel>
-                    <InputBase id="password" type="password" />
-                  </InputAndLabelContainer>
-                </SignInInputContainer>
-
-                <SignInButton>LOGAR</SignInButton>
-
-                <SignUpButton onClick={() => setIsSignIn(!isSignIn)}>CRIAR CONTA</SignUpButton>
-              </>
-            ) : (
-              <>
-                <SignInInputContainer>
-                  <InputAndLabelContainer>
-                    <InputLabel htmlFor='name'>Nome</InputLabel>
-                    <InputBase id="name" />
-                  </InputAndLabelContainer>
-
-                  <InputAndLabelContainer>
-                    <InputLabel htmlFor='email'>Email</InputLabel>
-                    <InputBase id="email" />
-                  </InputAndLabelContainer>
-
-                  <InputAndLabelContainer>
-                    <InputLabel htmlFor='password' >Senha</InputLabel>
-                    <InputBase id="password" type="password" />
-                  </InputAndLabelContainer>
-
-                  <InputAndLabelContainer>
-                    <InputLabel htmlFor='password' >Repetir Senha</InputLabel>
-                    <InputBase id="password" type="password" />
-                  </InputAndLabelContainer>
-                </SignInInputContainer>
-
-                <SignInButton>REGISTRAR</SignInButton>
-
-                <SignUpButton onClick={() => setIsSignIn(!isSignIn)}>LOGAR</SignUpButton>
-              </>
+            isSignIn ? (<SignInForm changeToSignUpForm={handleChangeSignInToSignUpForm} />) : (
+              <SignUpForm changeToSignUpForm={handleChangeSignInToSignUpForm} />
             )
           }
-
-
         </RightCardContainer>
 
       </RightContainer>
