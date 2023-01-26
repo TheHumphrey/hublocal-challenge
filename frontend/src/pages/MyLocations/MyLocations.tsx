@@ -5,6 +5,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { DialogAddLocation } from "../../components/DialogAddLocation/DialogAddLocation";
 import { LocationTable } from "../../components/LocationTable/LocationTable";
 import { ButtonContainer } from "../MyCompanies/style";
+import { useContextSelector } from "use-context-selector";
+import { CompanyContext } from "../../contexts/CompaniesContext";
 
 const CustomIconButton = styled(IconButton)`
   display: flex;
@@ -30,13 +32,17 @@ const CustomIconButton = styled(IconButton)`
   }
 `
 
-const locations = []
-
 export const MyLocations = () => {
   const { id } = useParams()
   const navigate = useNavigate()
 
-  const isRenderTableOrNot = locations.length !== 0
+  const { locations } = useContextSelector(CompanyContext, (context) => {
+    return {
+      locations: context.locations
+    }
+  })
+
+  const isRenderTableOrNot = locations.length === 0
 
   return (
     <LocationContainer>
@@ -53,14 +59,14 @@ export const MyLocations = () => {
           <>
             <LocationTitle>Nenhum local cadastrado!</LocationTitle>
 
-            <DialogAddLocation />
+            <DialogAddLocation companyId={id!} />
           </>
         ) : (
           <LocationTableAndButtonContainer>
             <ButtonContainer>
-              <DialogAddLocation />
+              <DialogAddLocation companyId={id!} />
             </ButtonContainer>
-            <LocationTable />
+            <LocationTable companyId={id!} />
           </LocationTableAndButtonContainer>
         )
       }

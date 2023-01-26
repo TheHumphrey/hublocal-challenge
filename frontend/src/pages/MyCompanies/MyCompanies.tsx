@@ -22,7 +22,8 @@ import {
   TableFooter,
   TableFooterFieldsContainer,
   FooterPageField,
-  ButtonContainer
+  ButtonContainer,
+  TableLineContainer
 } from "./style"
 import { useNavigate } from "react-router-dom"
 import { CompanyContext } from "../../contexts/CompaniesContext"
@@ -76,8 +77,8 @@ export const MyCompanies = () => {
             <TableBody>
               {
                 companies?.map(company => (
-                  <>
-                    <TableLineText key={company.id}>{company.name}</TableLineText>
+                  <TableLineContainer key={company.id}>
+                    <TableLineText >{company.name}</TableLineText>
                     <TableLineText>10</TableLineText>
                     <TableLineText>
                       <DialogAddCompany isEditMode currentCompany={company} />
@@ -87,9 +88,9 @@ export const MyCompanies = () => {
                       >
                         <RoomIcon />
                       </IconButton>
-                      <DialogDeleteCompany type="company" />
+                      <DialogDeleteCompany type="company" currentCompany={company} />
                     </TableLineText>
-                  </>
+                  </TableLineContainer>
                 ))
               }
             </TableBody>

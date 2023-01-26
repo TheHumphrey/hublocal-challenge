@@ -1,4 +1,7 @@
 import { ButtonGroup, Button, styled } from "@mui/material"
+import { useParams } from "react-router-dom"
+import { useContextSelector } from "use-context-selector"
+import { CompanyContext } from "../../contexts/CompaniesContext"
 import { DialogAddLocation } from "../DialogAddLocation/DialogAddLocation"
 import { DialogDeleteCompany } from "../DialogDeleteCompany/DialogDeleteCompany"
 import {
@@ -24,7 +27,16 @@ const ButtonToTableFooter = styled(Button)`
   text-transform: none;
 `
 
-export const LocationTable = () => {
+interface LocationTable {
+  companyId: string
+}
+
+export const LocationTable = ({ companyId }: LocationTable) => {
+  const { locations } = useContextSelector(CompanyContext, (context) => {
+    return {
+      locations: context.locations
+    }
+  })
   return (
     <TableContainer>
       <TableHeader>
@@ -33,11 +45,18 @@ export const LocationTable = () => {
       </TableHeader>
 
       <TableBody>
-        <TableLineText>Local do Janiu Rua 2</TableLineText>
-        <TableLineText>
-          <DialogAddLocation isEditMode />
-          <DialogDeleteCompany type="location" />
-        </TableLineText>
+        {
+          locations.map(location => (
+            <>
+              <TableLineText>{location.name}</TableLineText>
+              <TableLineText>
+                <DialogAddLocation isEditMode currentLocation={location} companyId={companyId} />
+                <DialogDeleteCompany type="location" currentLocation={location} />
+              </TableLineText>
+            </>
+          ))
+        }
+
       </TableBody>
 
       <TableFooter>

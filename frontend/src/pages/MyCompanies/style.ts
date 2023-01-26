@@ -62,9 +62,17 @@ export const TableTitleText = styled.h1`
 
 export const TableBody = styled.div`
   width: 100%;
-  height: 68px;
+  height: 300px;
 
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid ${({ theme }) => theme['white-200']};
+  overflow-y: scroll;
+`
+
+export const TableLineContainer = styled.div`
   display: grid;
+  width: 100%;
   grid-template-columns: 55.2% 18% 1fr;
   border-bottom: 1px solid ${({ theme }) => theme['white-200']};
 `

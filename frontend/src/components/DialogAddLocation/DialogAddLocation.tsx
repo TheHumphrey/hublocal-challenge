@@ -11,6 +11,8 @@ import { InputBase, InputWithLabel } from '../BaseInput/BaseInput'
 import EditIcon from '@mui/icons-material/Edit'
 import { cnpjMask } from '../../utils/masks'
 import { ButtonToAdd, FieldContainer } from '../DialogAddCompany/style'
+import { useContextSelector } from 'use-context-selector'
+import { CompanyContext, Location } from '../../contexts/CompaniesContext'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -82,10 +84,32 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
 
 interface DialogAddLocationProps {
   isEditMode?: boolean;
+  currentLocation?: Location
+  companyId: string
 }
 
-export const DialogAddLocation = ({ isEditMode }: DialogAddLocationProps) => {
+interface InputsFields {
+  name: string
+  cep: string
+  street: string
+  number: string
+  district: string
+  city: string
+  state: string
+}
+
+type FieldsKey = keyof InputsFields
+
+export const DialogAddLocation = ({ isEditMode, currentLocation, companyId }: DialogAddLocationProps) => {
   const [open, setOpen] = useState(false)
+  const [inputs, setInputs] = useState<InputsFields>(currentLocation || {} as InputsFields)
+
+  const { putLocationById, createNewLocation } = useContextSelector(CompanyContext, (context) => {
+    return {
+      putLocationById: context.putLocationById,
+      createNewLocation: context.createNewLocation
+    }
+  })
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -93,6 +117,25 @@ export const DialogAddLocation = ({ isEditMode }: DialogAddLocationProps) => {
 
   const handleClose = () => {
     setOpen(false)
+  }
+
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>, field: FieldsKey) => {
+    setInputs(state => ({ ...state, [field]: event.target.value }))
+  }
+
+  const onSubmit = async () => {
+    const { cep, city, district, name, number, state, street } = inputs
+    if (!name || !cep || !city || !district || !number || !state || !street) return
+    if (isEditMode) {
+      if (!currentLocation) return
+      const { id } = currentLocation
+      if (!id) return
+      const isEdited = await putLocationById({ id, cep, city, district, name, number, state, street })
+      isEdited && handleClose()
+      return
+    }
+    const iscreated = await createNewLocation({ cep, city, district, name, number, state, street }, companyId)
+    iscreated && handleClose()
   }
 
   return (
@@ -122,13 +165,22 @@ export const DialogAddLocation = ({ isEditMode }: DialogAddLocationProps) => {
         </CustomBootstrapDialogTitle>
         <CustomDialogContent dividers>
 
-          <InputWithLabel id="name" type="text" label="Nome" options={{ width: '100%', size: 'small' }} />
+          <InputWithLabel
+            id="name"
+            type="text"
+            label="Nome"
+            value={inputs.name}
+            onChange={(event) => onChangeInput(event, 'name')}
+            options={{ width: '100%', size: 'small' }}
+          />
 
           <FieldContainer>
             <InputWithLabel
               id="cep"
               type="text"
               label="CEP"
+              value={inputs.cep}
+              onChange={(event) => onChangeInput(event, 'cep')}
               options={{ size: 'small' }}
             />
 
@@ -136,6 +188,8 @@ export const DialogAddLocation = ({ isEditMode }: DialogAddLocationProps) => {
               id="rua"
               type="text"
               label="Rua"
+              value={inputs.street}
+              onChange={(event) => onChangeInput(event, 'street')}
               options={{ size: 'small' }}
             />
           </FieldContainer>
@@ -144,6 +198,8 @@ export const DialogAddLocation = ({ isEditMode }: DialogAddLocationProps) => {
               id="number"
               type="text"
               label="Número"
+              value={inputs.number}
+              onChange={(event) => onChangeInput(event, 'number')}
               options={{ size: 'small' }}
             />
 
@@ -151,6 +207,8 @@ export const DialogAddLocation = ({ isEditMode }: DialogAddLocationProps) => {
               id="bairro"
               type="text"
               label="Bairro"
+              value={inputs.district}
+              onChange={(event) => onChangeInput(event, 'district')}
               options={{ size: 'small' }}
             />
           </FieldContainer>
@@ -159,6 +217,8 @@ export const DialogAddLocation = ({ isEditMode }: DialogAddLocationProps) => {
               id="city"
               type="text"
               label="Cidade"
+              value={inputs.city}
+              onChange={(event) => onChangeInput(event, 'city')}
               options={{ size: 'small' }}
             />
 
@@ -166,6 +226,8 @@ export const DialogAddLocation = ({ isEditMode }: DialogAddLocationProps) => {
               id="state"
               type="text"
               label="Estado"
+              value={inputs.state}
+              onChange={(event) => onChangeInput(event, 'state')}
               options={{ size: 'small' }}
             />
           </FieldContainer>
@@ -174,11 +236,11 @@ export const DialogAddLocation = ({ isEditMode }: DialogAddLocationProps) => {
         <CustomDialogActions>
           <ButtonToAdd
             autoFocus
-            onClick={handleClose}
+            onClick={onSubmit}
             height='2.8125rem'
             customWidth='9.1875rem'
           >
-            Adicionar
+            {isEditMode ? 'Editar' : 'Adicionar'}
           </ButtonToAdd>
         </CustomDialogActions>
       </CustomBootstrapDialog>

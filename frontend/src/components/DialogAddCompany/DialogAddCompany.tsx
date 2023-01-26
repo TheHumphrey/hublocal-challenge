@@ -88,14 +88,15 @@ interface DialogAddCompanyProps {
 }
 
 export const DialogAddCompany = ({ isEditMode, currentCompany }: DialogAddCompanyProps) => {
-  const [cnpj, setCnpj] = useState('')
-  const [website, setWebsite] = useState('')
-  const [name, setName] = useState('')
+  const [cnpj, setCnpj] = useState(currentCompany?.cnpj || '')
+  const [website, setWebsite] = useState(currentCompany?.website || '')
+  const [name, setName] = useState(currentCompany?.name || '')
   const [open, setOpen] = useState(false)
 
-  const { createNewCompany } = useContextSelector(CompanyContext, (context) => {
+  const { createNewCompany, putCompanyById } = useContextSelector(CompanyContext, (context) => {
     return {
-      createNewCompany: context.createNewCompany
+      createNewCompany: context.createNewCompany,
+      putCompanyById: context.putCompanyById
     }
   })
 
@@ -118,8 +119,17 @@ export const DialogAddCompany = ({ isEditMode, currentCompany }: DialogAddCompan
   }
 
   const onSubmit = async () => {
-    const iscreatedOrEdited = await createNewCompany({ name, cnpj, website })
-    iscreatedOrEdited && handleClose()
+    if (!name || !cnpj || !website) return
+    if (isEditMode) {
+      if (!currentCompany) return
+      const { id } = currentCompany
+      if (!id) return
+      const isEdited = await putCompanyById({ id, name, cnpj, website })
+      isEdited && handleClose()
+      return
+    }
+    const iscreated = await createNewCompany({ name, cnpj, website })
+    iscreated && handleClose()
   }
 
   return (

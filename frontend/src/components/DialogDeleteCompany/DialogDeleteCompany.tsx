@@ -8,6 +8,8 @@ import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import { ButtonToRemove } from './style'
 import DeleteIcon from '@mui/icons-material/Delete'
+import { Company, CompanyContext, Location } from '../../contexts/CompaniesContext'
+import { useContextSelector } from 'use-context-selector'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -88,10 +90,19 @@ const CustomDialogActions = styled(DialogActions)`
 
 interface DialogDeleteCompanyProps {
   type: 'company' | 'location'
+  currentCompany?: Company
+  currentLocation?: Location
 }
 
-export const DialogDeleteCompany = ({ type }: DialogDeleteCompanyProps) => {
+export const DialogDeleteCompany = ({ type, currentCompany, currentLocation }: DialogDeleteCompanyProps) => {
   const [open, setOpen] = useState(false)
+
+  const { deleteCompanyById, deleteLocationById } = useContextSelector(CompanyContext, (context) => {
+    return {
+      deleteCompanyById: context.deleteCompanyById,
+      deleteLocationById: context.deleteLocationById
+    }
+  })
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -100,6 +111,25 @@ export const DialogDeleteCompany = ({ type }: DialogDeleteCompanyProps) => {
   const handleClose = () => {
     setOpen(false)
   }
+
+  const onSubmit = async () => {
+    if (type === 'company') {
+      if (!currentCompany) return
+      const { id } = currentCompany
+      if (!id) return
+      await deleteCompanyById(id)
+      return handleClose()
+    }
+    if (type === 'location') {
+      if (!currentLocation) return
+      const { id } = currentLocation
+      if (!id) return
+      await deleteLocationById(id)
+      return handleClose()
+    }
+  }
+
+  const isCompany = type === 'company'
 
   return (
     <div>
@@ -121,14 +151,14 @@ export const DialogDeleteCompany = ({ type }: DialogDeleteCompanyProps) => {
         </CustomBootstrapDialogTitle>
 
         <CustomDialogContent dividers>
-          {type === 'company' ? 'A empresa' : 'O local'} <strong>{'Empresa do Janiu (Caucaia)'}</strong> será excluída.
+          {isCompany ? 'A empresa' : 'O local'} <strong>{isCompany ? currentCompany?.name : currentLocation?.name}</strong> será excluída.
           Tem certeza dessa ação?
         </CustomDialogContent>
 
         <CustomDialogActions>
           <ButtonToRemove
             autoFocus
-            onClick={handleClose}
+            onClick={onSubmit}
             height='2.8125rem'
             customWidth='9.1875rem'
           >
