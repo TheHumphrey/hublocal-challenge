@@ -154,7 +154,7 @@ export const DialogAddCompany = ({ isEditMode, currentCompany }: DialogAddCompan
       >
         <CustomBootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
           {
-            isEditMode ? `Editar: ${'Nome da empresa aqui'}` : 'Adicionar Empresa'
+            isEditMode ? `Editar: ${currentCompany?.name}` : 'Adicionar Empresa'
           }
         </CustomBootstrapDialogTitle>
         <CustomDialogContent dividers>

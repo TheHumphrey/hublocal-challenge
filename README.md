@@ -130,3 +130,75 @@ se tiver uma ssh utilize o seguinte comando:
 ```
 
 3. Acesso o endereço http://localhost:5173
+
+## Imagens da aplicação
+
+### Login
+
+![alt text](https://i.postimg.cc/VkNtrHfZ/login.png)
+
+---
+
+### Cadastro
+
+![alt text](https://i.postimg.cc/9MP0NGXq/cadastro1.png)
+
+---
+
+### Minhas empresas sem empresa cadastrada
+
+![alt text](https://i.postimg.cc/BbQSYkwd/empresavazia.png)
+
+---
+
+### Modal de cadastro de empresa
+
+![alt text](https://i.postimg.cc/HsrHrwG4/modalcadastroempresa.png)
+
+---
+
+### Minhas empresas com empresa cadastrada
+
+![alt text](https://i.postimg.cc/2yqJSxq1/empresascomumacadastrada.png)
+
+---
+
+### Modal de editar empresa
+
+![alt text](https://i.postimg.cc/g0HrgV2L/editarempresa.png)
+
+---
+
+### Modal de deletar empresa
+
+![alt text](https://i.postimg.cc/tJWgVWwg/deletarempresa.png)
+
+---
+
+### Locais sem local cadastrado
+
+![alt text](https://i.postimg.cc/XYJ0R9Ly/locais.png)
+
+---
+
+### Modal de cadastro de local
+
+![alt text](https://i.postimg.cc/gJnjGnWg/adicionarlocal.png)
+
+---
+
+### Local com um cadastrado
+
+![alt text](https://i.postimg.cc/Wp8WBz4B/localcomumcadastrado.png)
+
+---
+
+### Editar local cadastrado
+
+![alt text](https://i.postimg.cc/mZmjdnXR/localeditar.png)
+
+---
+
+### Deletar local cadastrado
+
+![alt text](https://i.postimg.cc/KY7rtpk6/localdeletar.png)
