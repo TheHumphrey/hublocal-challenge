@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useContextSelector } from "use-context-selector"
 import { LoginContext } from "../../contexts/LoginContext"
@@ -27,7 +27,16 @@ export const SignInForm = ({ changeToSignUpForm }: SignInFormProps) => {
 
   const navigate = useNavigate()
 
-  const singIn = useContextSelector(LoginContext, (context) => context.singIn)
+  const { isAuth, singIn } = useContextSelector(LoginContext, (context) => {
+    return {
+      singIn: context.singIn,
+      isAuth: context.isAuth
+    }
+  })
+
+  useEffect(() => {
+    isAuth && navigate('/companies')
+  }, [isAuth])
 
   async function LoginIn(event: React.FormEvent<HTMLFormElement>) {
     try {
@@ -37,9 +46,7 @@ export const SignInForm = ({ changeToSignUpForm }: SignInFormProps) => {
 
       const response = await singIn(email, password)
 
-      response && navigate('/companies')
-
-      setIsFetching(false)
+      setIsFetching(!response)
     } catch (err) {
       event.preventDefault()
       setIsFetching(false)
