@@ -50,7 +50,12 @@ export const CompanyProvider = ({ children }: CompanyProviderProps) => {
   const [locations, setLocations] = useState<Location[]>([])
   const [companySelectedId, setCompanySelectedId] = useState('')
 
-  const token = useContextSelector(LoginContext, (context) => context.accessToken)
+  const { logOut, token } = useContextSelector(LoginContext, (context) => {
+    return {
+      token: context.accessToken,
+      logOut: context.logOut
+    }
+  })
   const handleRenderSnackBar = useContextSelector(GlobalSnackBarContext, (context) => context.handleRenderSnackBar)
 
 
@@ -70,6 +75,7 @@ export const CompanyProvider = ({ children }: CompanyProviderProps) => {
     } catch (error) {
       const err = error as AxiosError<ErrorResponseBody>
       handleRenderSnackBar(err?.response?.data.message!, 'error')
+      isUnauthorizedError(err?.response?.data?.statusCode)
     }
   }
 
@@ -83,6 +89,7 @@ export const CompanyProvider = ({ children }: CompanyProviderProps) => {
     } catch (error) {
       const err = error as AxiosError<ErrorResponseBody>
       handleRenderSnackBar(err?.response?.data.message!, 'error')
+      isUnauthorizedError(err?.response?.data?.statusCode)
       return false
     }
   }
@@ -100,6 +107,7 @@ export const CompanyProvider = ({ children }: CompanyProviderProps) => {
     } catch (error) {
       const err = error as AxiosError<ErrorResponseBody>
       handleRenderSnackBar(err?.response?.data.message!, 'error')
+      isUnauthorizedError(err?.response?.data?.statusCode)
       return false
     }
   }
@@ -114,6 +122,7 @@ export const CompanyProvider = ({ children }: CompanyProviderProps) => {
     } catch (error) {
       const err = error as AxiosError<ErrorResponseBody>
       handleRenderSnackBar(err?.response?.data.message!, 'error')
+      isUnauthorizedError(err?.response?.data?.statusCode)
       return false
     }
   }
@@ -125,6 +134,7 @@ export const CompanyProvider = ({ children }: CompanyProviderProps) => {
     } catch (error) {
       const err = error as AxiosError<ErrorResponseBody>
       handleRenderSnackBar(err?.response?.data.message!, 'error')
+      isUnauthorizedError(err?.response?.data?.statusCode)
     }
   }
 
@@ -138,6 +148,7 @@ export const CompanyProvider = ({ children }: CompanyProviderProps) => {
     } catch (error) {
       const err = error as AxiosError<ErrorResponseBody>
       handleRenderSnackBar(err?.response?.data.message!, 'error')
+      isUnauthorizedError(err?.response?.data?.statusCode)
       return false
     }
   }
@@ -156,6 +167,7 @@ export const CompanyProvider = ({ children }: CompanyProviderProps) => {
     } catch (error) {
       const err = error as AxiosError<ErrorResponseBody>
       handleRenderSnackBar(err?.response?.data.message!, 'error')
+      isUnauthorizedError(err?.response?.data?.statusCode)
       return false
     }
   }
@@ -170,6 +182,7 @@ export const CompanyProvider = ({ children }: CompanyProviderProps) => {
     } catch (error) {
       const err = error as AxiosError<ErrorResponseBody>
       handleRenderSnackBar(err?.response?.data.message!, 'error')
+      isUnauthorizedError(err?.response?.data?.statusCode)
       return false
     }
   }
@@ -177,6 +190,11 @@ export const CompanyProvider = ({ children }: CompanyProviderProps) => {
   function onChangeSelectedCompanyOnLayout(event: React.ChangeEvent<HTMLSelectElement>) {
     if (event.target.value) return
     setCompanySelectedId(event.target.value)
+  }
+
+  function isUnauthorizedError(statusCode?: number) {
+    if (!statusCode) return
+    if (statusCode === 401) return logOut()
   }
 
   return (
