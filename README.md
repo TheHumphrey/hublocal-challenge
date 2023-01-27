@@ -4,7 +4,7 @@ Este é um desafio para testar as minhas habilidades como Fullstack Developer.
 
 > This is a challenge by [Coodesh](https://coodesh.com/)
 
-## Decições tomadas durante do desenvolvimento:
+## Decições tomadas durante o desenvolvimento:
 
 - Decidi iniciar o projeto pelo frontend, deixando apenas o design pronto.
 - Após terminar todo o design do frontend iniciei o backend.
