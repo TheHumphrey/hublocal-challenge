@@ -4,6 +4,17 @@ Este é um desafio para testar as minhas habilidades como Fullstack Developer.
 
 > This is a challenge by [Coodesh](https://coodesh.com/)
 
+## Decições tomadas durante do desenvolvimento:
+
+- Decidi iniciar o projeto pelo frontend, deixando apenas o design pronto.
+- Após terminar todo o design do frontend iniciei o backend.
+- Para o sistema de autenticação decidi utilizar a estrategia de retornar um token valido por 30 dias para o cliente utilizando JWT.
+- Para armazenar as senhas do usuários no bancos de dados eu utilizei bcrypt para transformar elas em hash utilizando um salto de ate 10. Fazendo isso
+  caso o banco de dados venha a vazar as senhas serão uma hash que não da pra fazer a engenharia reversa e que uma unica senha possa ter ate mesmo 10 hash validas dificultando tentativas de quebras de senhas atraves de bruteforce.
+- Após terminar toda a parte de autenticação coloquei proteção em todos os outros endpoints que serão desenvolvidos (empresa,locais), sendo necessario enviar um
+  token valido para conseguir uma resposta de sucesso do backend.
+- Ao terminar todo o backend voltei para o frontend e corrigi algumas falhas e fiz a integração com o backend.
+
 ## Tecnologias (Front-End):
 
 - [React](https://pt-br.reactjs.org/)
@@ -130,6 +141,107 @@ se tiver uma ssh utilize o seguinte comando:
 ```
 
 3. Acesso o endereço http://localhost:5173
+
+## Rotas da api
+
+### Autenticação
+
+**/user/create**
+
+Tipo: [POST]
+Exemplo de envio:
+
+```json
+{
+  "name": "Nome",
+  "email": "teste@teste.com",
+  "password": "Teste@1234"
+}
+```
+
+**/login**
+
+Tipo: [POST]
+Exemplo de envio:
+
+```json
+{
+  "email": "teste@teste.com",
+  "password": "Teste@1234"
+}
+```
+
+### Empresas
+
+**/app/companies**
+Tipo: [GET]
+
+**/app/companies**
+Tipo: [POST]
+Exemplo de envio:
+
+```json
+{
+  "cnpj": "11.111.111/0001-11",
+  "name": "Teste",
+  "website": "www.teste.com"
+}
+```
+
+**/app/companies/:id**
+Tipo: [PUT]
+Exemplo de envio:
+
+```json
+{
+  "cnpj": "11.111.111/0001-11",
+  "name": "Teste",
+  "website": "www.teste.com"
+}
+```
+
+**/app/companies/:id**
+Tipo: [DELETE]
+
+### Locais
+
+**/app/location**
+Tipo: [GET]
+
+**/app/location**
+Tipo: [POST]
+Exemplo de envio:
+
+```json
+{
+  "name": "Local Teste",
+  "cep": "11111111",
+  "street": "Rua teste",
+  "number": "SN",
+  "district": "Teste",
+  "city": "Teste",
+  "state": "Teste"
+}
+```
+
+**/app/location/:id**
+Tipo: [PUT]
+Exemplo de envio:
+
+```json
+{
+  "name": "Local Teste",
+  "cep": "11111111",
+  "street": "Rua teste",
+  "number": "SN",
+  "district": "Teste",
+  "city": "Teste",
+  "state": "Teste"
+}
+```
+
+**/app/location/:id**
+Tipo: [DELETE]
 
 ## Imagens da aplicação
 
