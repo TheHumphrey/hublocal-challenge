@@ -46,7 +46,7 @@ export const SignInForm = ({ changeToSignUpForm }: SignInFormProps) => {
 
       const response = await singIn(email, password)
 
-      setIsFetching(!response)
+      setIsFetching(false)
     } catch (err) {
       event.preventDefault()
       setIsFetching(false)
