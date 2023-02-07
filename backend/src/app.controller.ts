@@ -12,6 +12,7 @@ import { CurrentUser } from './auth/decorators/current-user.decorator';
 import { PrismaService } from './database/prisma.service';
 import { CreateCompanyBody } from './dto/create-company';
 import { CreateLocationBody } from './dto/create-location';
+import { Company } from './user/entities/company.entity';
 import { User } from './user/entities/user.entity';
 
 @Controller('app')
@@ -23,12 +24,9 @@ export class AppController {
 
   @Get('companies')
   async getCompaniesFromUser(@CurrentUser() user: User) {
-    const companies = await this.prisma.company.findMany({
-      where: {
-        userId: user.id,
-        isActive: true,
-      },
-    });
+    const companies: Company[] =
+      await this.appService.gerCompaniesWithLocations(user);
+
     return companies;
   }
 
