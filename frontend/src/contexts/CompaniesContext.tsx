@@ -10,6 +10,7 @@ export interface Company {
   name: string
   website: string
   cnpj: string
+  locations?: Location[]
 }
 
 export interface Location {

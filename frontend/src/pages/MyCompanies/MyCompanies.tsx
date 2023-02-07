@@ -77,7 +77,7 @@ export const MyCompanies = () => {
                 companies?.map(company => (
                   <TableLineContainer key={company.id}>
                     <TableLineText >{company.name}</TableLineText>
-                    <TableLineText>10</TableLineText>
+                    <TableLineText>{company?.locations?.length || 0}</TableLineText>
                     <TableLineText>
                       <DialogAddCompany isEditMode currentCompany={company} />
                       <IconButton
